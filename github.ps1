@@ -18,9 +18,10 @@ switch ($args[0])
       if ((Test-Path -Path $args[1]) -eq $True)
       {
         git add $args[1]
+        Exit
       }
 
-      Exit
+      Write-Warning "'$($args[1])' not found"
     }
 
     Write-Host '用法: github add <filename>'
@@ -67,23 +68,58 @@ switch ($args[0])
   }
   'rm'
   {
-    
+    if ($args.Count -eq 2)
+    {
+      if ((Test-Path -Path $args[1]) -eq $True)
+      {
+        git rm $args[1]
+        Exit
+      }
+
+      Write-Warning "'$($args[1])' not found"
+    }
+
+    Write-Host '用法: github rm <filename>'
+    break
   }
   'up'
   {
+    if ($args.Count -lt 2)
+    {
+      git pull
+      Exit
+    }
 
+    Write-Host '用法: github up'
+    break
   }
   'st'
   {
+    if ($args.Count -lt 2)
+    {
+      git status
+      Exit
+    }
 
+    Write-Host '用法: github st'
+    break
   }
   'help'
   {
-
+    Write-Host '用法: github <subcommand> [args]'
+    Write-Host '常用的子命令:'
+    Write-Host '  add 添加文件内容至索引'
+    Write-Host '  ci  记录变更到版本库并且更新至github.com'
+    Write-Host '  co  将给定名称的版本库克隆到一个新目录'
+    Write-Host '  rm  从工作区和索引中删除文件'
+    Write-Host '  up  本地分支更新到最新版本'
+    Write-Host '  st  显示工作区状态'
+    break
   }
   'version'
   {
-
+    Write-Host 'github version 1.0.0'
+    break
   }
   default
   {
