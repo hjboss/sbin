@@ -27,6 +27,26 @@ switch ($args[0])
     Write-Host '用法: github add <FILENAME>'
     Break
   }
+  'cb'
+  {
+    if ($args.Count -ge 2)
+    {
+      if ($args.Count -ge 3)
+      {
+        git commit -a -m $args[2]
+      }
+      else
+      {
+        git commit -a -m 'Initial commit'
+      }
+
+      git push -u origin $args[1]
+      Exit
+    }
+
+    Write-Host '用法: github cb <BRANCH> [COMMENT]'
+    Break
+  }
   'ci'
   {
     if ($args.Count -lt 3)
@@ -44,7 +64,7 @@ switch ($args[0])
       Exit
     }
 
-    Write-Host '用法: github add [COMMENT]'
+    Write-Host '用法: github ci [COMMENT]'
     Break
   }
   'co'
